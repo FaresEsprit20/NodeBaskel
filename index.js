@@ -129,6 +129,178 @@ app.get('/user/get',(req, res) => {
 
 
 
+
+
+//show all locations
+app.post('/records/add',(req, res) => {
+
+	
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.user_id;
+		var address = post_data.address;
+		var distance = post_data.distance;
+		var time = post_data.time;
+		var daterecord = post_data.daterecord;
+		
+		console.log(post_data);
+
+  
+		con.query('INSERT INTO `record`(`address`, `time`, `distance`, `daterecord`,`user_id`) VALUES (?,?,?,?,?)', [address,time,distance,daterecord,id] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			
+		
+			res.json("OK");
+		
+			});
+
+  });
+
+
+
+
+
+
+
+
+
+
+//show all locations
+app.post('/locations',(req, res) => {
+
+	var Location = {
+		location_id : 0 ,
+		datelocation : '',
+		adresselocation : '',
+		user_id : 0,
+		bike_id : 0
+		
+	};
+
+	var data = [Location];
+
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.user_id;
+		var name = post_data.name;
+		var lastname = post_data.lastname;
+		var email = post_data.email;
+		var password = post_data.password;
+		var phone = post_data.phone;
+		console.log(post_data);
+
+  
+		con.query('SELECT * FROM location,bike WHERE location.bike_id = bike.bike_id AND location.user_id=?', [id] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			
+			if(result && result.length ){
+			res.send(JSON.stringify(result));
+			}
+			else
+			{
+				res.send(data);
+			}
+			});
+
+  });
+
+
+
+
+
+
+//show all locations
+app.post('/records/get',(req, res) => {
+
+	var Record = {
+		record_id : 0 ,
+		address : '',
+		daterecord : '',
+		time : '',
+        distance: '',
+		user_id : ''
+		
+	};
+
+	var data = [Record];
+
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.user_id;
+		
+		console.log(post_data);
+
+  
+		con.query('SELECT * FROM record WHERE user_id=?', [id] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			
+			if(result && result.length ){
+			res.send(JSON.stringify(result));
+			}
+			else
+			{
+				res.send(data);
+			}
+			});
+
+  });
+
+
+
+
+
+
+//show all locations
+app.post('/records/delete',(req, res) => {
+
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.record_id;
+		
+		console.log(post_data);
+
+  
+		con.query('DELETE FROM record WHERE record_id=?', [id] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			
+			res.json("OK");
+		
+			});
+
+  });
+
+
+
+
+
+
+  //show single location
+app.get('/location/:id',(req, res) => {
+	let sql = "SELECT * FROM location WHERE location_id="+req.params.id;
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(JSON.stringify(results));
+	});
+  });
+
+
+
+
+
+
+
 //update user
 app.put('/user/update',(req, res) => {
 	var post_data = req.body;  //get POST PARAMS
@@ -194,24 +366,7 @@ app.get('/bike/:id',(req, res) => {
   });
   
 
-//show all locations
-app.get('/locations',(req, res) => {
-	let sql = "SELECT * FROM location ";
-    con.query(sql, (err, results) => {
-	  if(err) throw err;
-	  res.send(JSON.stringify(results));
-	});
-  });
 
-
-  //show single location
-app.get('/location/:id',(req, res) => {
-	let sql = "SELECT * FROM location WHERE location_id="+req.params.id;
-    con.query(sql, (err, results) => {
-	  if(err) throw err;
-	  res.send(JSON.stringify(results));
-	});
-  });
 
 
 
