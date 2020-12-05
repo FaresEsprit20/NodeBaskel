@@ -265,10 +265,7 @@ app.post('/records/delete',(req, res) => {
 	var post_data = req.body;  //get POST PARAMS
 		//retrieve data from query
 		var id = post_data.record_id;
-		
 		console.log(post_data);
-
-  
 		con.query('DELETE FROM record WHERE record_id=?', [id] , function( err ,result, fields) { 
 		
 			con.on('error',function (err) { 
@@ -278,6 +275,26 @@ app.post('/records/delete',(req, res) => {
 			res.json("OK");
 		
 			});
+
+  });
+
+
+
+  
+//delete rent
+app.post('/locations/delete',(req, res) => {
+
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.location_id;		
+		console.log(post_data);
+
+		con.query('DELETE FROM location WHERE location_id=?', [id] , function( err ,result, fields) { 		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			res.json("OK");
+		});
 
   });
 
