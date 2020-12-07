@@ -18,6 +18,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('images'));
+require('events').EventEmitter.defaultMaxListeners = 15;
 
 //connect to database
 con.connect((err) =>{
