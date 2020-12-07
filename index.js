@@ -373,6 +373,65 @@ app.get('/bikes',(req, res) => {
 	});
   });
 
+
+
+ //show all shops
+ app.get('/shops',(req, res) => {
+	let sql = "SELECT * FROM shop";
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(results);
+	});
+  });
+
+  //show all communities
+ app.get('/communities',(req, res) => {
+	let sql = "SELECT * FROM community";
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(results);
+	});
+  });
+
+  //show all cyclists
+ app.get('/cyclists',(req, res) => {
+	let sql = "SELECT * FROM cyclist";
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(results);
+	});
+  });
+
+  //show all communities
+ app.get('/circuits',(req, res) => {
+	let sql = "SELECT * FROM circuit";
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(results);
+	});
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   //show single bike
 app.get('/bike/:id',(req, res) => {
