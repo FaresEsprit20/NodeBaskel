@@ -373,6 +373,45 @@ app.get('/bikes',(req, res) => {
 	});
   });
 
+  
+
+//show all bikes by shop
+app.post('/bikes/shops',(req, res) => {
+
+	var Bike = {
+		bike_id : 0 ,
+		model : '',
+		type : '',
+		price : '',
+		shop_id : 0
+	};
+
+	var data = [Shop];
+
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.shop_id;
+		
+		console.log(post_data);
+
+		con.query('SELECT * FROM bike WHERE shop_id=?', [id] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			
+			if(result && result.length ){
+			res.send(JSON.stringify(result));
+			}
+			else
+			{
+				res.send(data);
+			}
+			});
+
+  });
+
+
 
 
  //show all shops
