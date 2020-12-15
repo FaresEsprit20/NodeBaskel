@@ -18,7 +18,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('images'));
-require('events').EventEmitter.defaultMaxListeners = 15;
+require('events').EventEmitter.defaultMaxListeners = 0;
 
 //connect to database
 con.connect((err) =>{
@@ -163,7 +163,37 @@ app.post('/records/add',(req, res) => {
 
 
 
+//add  location
+app.post('/location/add',(req, res) => {
 
+	
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var user = post_data.user_id;
+                 var bike = post_data.bike_id;
+		var adress = post_data.adresselocation;
+		var date = post_data.datelocation;
+		var hours = post_data.hours;
+                 var totalprice = post_data.totalprice;
+                 
+		
+		
+		console.log(post_data);
+
+  
+		con.query('INSERT INTO `location`( `datelocation`, `adresselocation`, `totalprice`, `hours`, `bike_id`, `user_id`) VALUES (?,?,?,?,?,?)', [date, adress, totalprice,
+hours, bike, user ] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			
+		
+			res.json("OK");
+		
+			});
+
+  });
 
 
 
