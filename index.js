@@ -224,7 +224,7 @@ app.post('/locations',(req, res) => {
 		console.log(post_data);
 
   
-		con.query('SELECT * FROM location,bike WHERE location.bike_id = bike.bike_id AND location.user_id=?', [id] , function( err ,result, fields) { 
+		con.query('SELECT  * FROM location,bike,shop WHERE location.bike_id = bike.bike_id AND location.user_id=?  GROUP BY location.location_id', [id] , function( err ,result, fields) { 
 		
 			con.on('error',function (err) { 
 			console.log('mysql error',err);
@@ -416,7 +416,7 @@ app.post('/bikes/shops',(req, res) => {
 		shop_id : 0
 	};
 
-	var data = [Shop];
+	var data = [Bike];
 
 	var post_data = req.body;  //get POST PARAMS
 		//retrieve data from query
@@ -479,23 +479,6 @@ app.post('/bikes/shops',(req, res) => {
 	  res.send(results);
 	});
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
