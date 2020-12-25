@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 15, 2020 at 06:15 PM
--- Server version: 8.0.22
--- PHP Version: 8.0.0
+-- Host: 127.0.0.1:3306
+-- Generation Time: Dec 25, 2020 at 12:31 AM
+-- Server version: 5.7.31
+-- PHP Version: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,14 +27,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `bike`
 --
 
-CREATE TABLE `bike` (
-  `bike_id` int NOT NULL,
+DROP TABLE IF EXISTS `bike`;
+CREATE TABLE IF NOT EXISTS `bike` (
+  `bike_id` int(11) NOT NULL AUTO_INCREMENT,
   `model` text NOT NULL,
   `type` text NOT NULL,
   `price` text NOT NULL,
-  `shop_id` int NOT NULL,
-  `image` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `shop_id` int(11) NOT NULL,
+  `image` text NOT NULL,
+  PRIMARY KEY (`bike_id`),
+  KEY `shop_id` (`shop_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bike`
@@ -52,12 +55,14 @@ INSERT INTO `bike` (`bike_id`, `model`, `type`, `price`, `shop_id`, `image`) VAL
 -- Table structure for table `circuit`
 --
 
-CREATE TABLE `circuit` (
-  `circuit_id` int NOT NULL,
+DROP TABLE IF EXISTS `circuit`;
+CREATE TABLE IF NOT EXISTS `circuit` (
+  `circuit_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `latitude` double NOT NULL,
-  `longitude` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `longitude` double NOT NULL,
+  PRIMARY KEY (`circuit_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `circuit`
@@ -74,12 +79,14 @@ INSERT INTO `circuit` (`circuit_id`, `title`, `latitude`, `longitude`) VALUES
 -- Table structure for table `community`
 --
 
-CREATE TABLE `community` (
-  `community_id` int NOT NULL,
+DROP TABLE IF EXISTS `community`;
+CREATE TABLE IF NOT EXISTS `community` (
+  `community_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `latitude` double NOT NULL,
-  `longitude` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `longitude` double NOT NULL,
+  PRIMARY KEY (`community_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `community`
@@ -96,12 +103,14 @@ INSERT INTO `community` (`community_id`, `title`, `latitude`, `longitude`) VALUE
 -- Table structure for table `cyclist`
 --
 
-CREATE TABLE `cyclist` (
-  `cyclist_id` int NOT NULL,
+DROP TABLE IF EXISTS `cyclist`;
+CREATE TABLE IF NOT EXISTS `cyclist` (
+  `cyclist_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `latitude` double NOT NULL,
-  `longitude` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `longitude` double NOT NULL,
+  PRIMARY KEY (`cyclist_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cyclist`
@@ -118,15 +127,19 @@ INSERT INTO `cyclist` (`cyclist_id`, `title`, `latitude`, `longitude`) VALUES
 -- Table structure for table `location`
 --
 
-CREATE TABLE `location` (
-  `location_id` int NOT NULL,
+DROP TABLE IF EXISTS `location`;
+CREATE TABLE IF NOT EXISTS `location` (
+  `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `datelocation` text NOT NULL,
   `adresselocation` text NOT NULL,
   `totalprice` text NOT NULL,
   `hours` text NOT NULL,
-  `bike_id` int NOT NULL,
-  `user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `bike_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`location_id`),
+  KEY `bike_id` (`bike_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `location`
@@ -135,7 +148,8 @@ CREATE TABLE `location` (
 INSERT INTO `location` (`location_id`, `datelocation`, `adresselocation`, `totalprice`, `hours`, `bike_id`, `user_id`) VALUES
 (1, '12/11/10', 'la Marsa', '70', '5', 2, 1),
 (5, '11/02/2020 11:44', 'toulouse', '220', '24', 3, 10),
-(9, '12/15/2020 15:12', 'Suisse', '225', '15', 1, 10);
+(11, '17-12-2020 09:27', 'Nabeul', '150', '10', 1, 10),
+(12, '17-12-2020 09:42', 'Marsa', '150', '10', 1, 10);
 
 -- --------------------------------------------------------
 
@@ -143,22 +157,24 @@ INSERT INTO `location` (`location_id`, `datelocation`, `adresselocation`, `total
 -- Table structure for table `record`
 --
 
-CREATE TABLE `record` (
-  `record_id` int NOT NULL,
+DROP TABLE IF EXISTS `record`;
+CREATE TABLE IF NOT EXISTS `record` (
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
   `address` text NOT NULL,
   `time` text NOT NULL,
   `distance` text NOT NULL,
   `daterecord` text NOT NULL,
-  `user_id` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `user_id` text NOT NULL,
+  PRIMARY KEY (`record_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `record`
 --
 
 INSERT INTO `record` (`record_id`, `address`, `time`, `distance`, `daterecord`, `user_id`) VALUES
-(3, 'ffffffff', '222', '444', '05-12-2020 10:58', '10'),
-(4, 'Marseille', '22', '55', '06-12-2020 18:16', '10');
+(4, 'Marseille', '22', '55', '06-12-2020 18:16', '10'),
+(5, 'Charguia', '120', '10', '17-12-2020 09:29', '10');
 
 -- --------------------------------------------------------
 
@@ -166,12 +182,14 @@ INSERT INTO `record` (`record_id`, `address`, `time`, `distance`, `daterecord`, 
 -- Table structure for table `shop`
 --
 
-CREATE TABLE `shop` (
-  `shop_id` int NOT NULL,
+DROP TABLE IF EXISTS `shop`;
+CREATE TABLE IF NOT EXISTS `shop` (
+  `shop_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `latitude` double NOT NULL,
-  `longitude` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `longitude` double NOT NULL,
+  PRIMARY KEY (`shop_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `shop`
@@ -188,14 +206,16 @@ INSERT INTO `shop` (`shop_id`, `title`, `latitude`, `longitude`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `user_id` int NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   `lastname` text NOT NULL,
   `email` text NOT NULL,
   `password` text NOT NULL,
-  `phone` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `phone` text NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -222,113 +242,6 @@ INSERT INTO `user` (`user_id`, `name`, `lastname`, `email`, `password`, `phone`)
 (23, 'Joo', 'Jamil', 'jamil@gmail.com', '123456', '12345678');
 
 --
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bike`
---
-ALTER TABLE `bike`
-  ADD PRIMARY KEY (`bike_id`),
-  ADD KEY `shop_id` (`shop_id`);
-
---
--- Indexes for table `circuit`
---
-ALTER TABLE `circuit`
-  ADD PRIMARY KEY (`circuit_id`);
-
---
--- Indexes for table `community`
---
-ALTER TABLE `community`
-  ADD PRIMARY KEY (`community_id`);
-
---
--- Indexes for table `cyclist`
---
-ALTER TABLE `cyclist`
-  ADD PRIMARY KEY (`cyclist_id`);
-
---
--- Indexes for table `location`
---
-ALTER TABLE `location`
-  ADD PRIMARY KEY (`location_id`),
-  ADD KEY `bike_id` (`bike_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `record`
---
-ALTER TABLE `record`
-  ADD PRIMARY KEY (`record_id`);
-
---
--- Indexes for table `shop`
---
-ALTER TABLE `shop`
-  ADD PRIMARY KEY (`shop_id`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bike`
---
-ALTER TABLE `bike`
-  MODIFY `bike_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `circuit`
---
-ALTER TABLE `circuit`
-  MODIFY `circuit_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `community`
---
-ALTER TABLE `community`
-  MODIFY `community_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `cyclist`
---
-ALTER TABLE `cyclist`
-  MODIFY `cyclist_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `location`
---
-ALTER TABLE `location`
-  MODIFY `location_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `record`
---
-ALTER TABLE `record`
-  MODIFY `record_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `shop`
---
-ALTER TABLE `shop`
-  MODIFY `shop_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
 -- Constraints for dumped tables
 --
 
@@ -336,7 +249,7 @@ ALTER TABLE `user`
 -- Constraints for table `bike`
 --
 ALTER TABLE `bike`
-  ADD CONSTRAINT `bike_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `bike_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`);
 
 --
 -- Constraints for table `location`
