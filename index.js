@@ -402,6 +402,15 @@ app.get('/bikes',(req, res) => {
 	  res.send(results);
 	});
   });
+  
+   //show all bikes
+app.get('/bikes/sh',(req, res) => {
+	let sql = "SELECT * FROM bike,shop";
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(results);
+	});
+  });
 
   
 
