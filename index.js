@@ -161,6 +161,29 @@ app.post('/records/add',(req, res) => {
   });
 
 
+  //show all events
+app.post('/events/add',(req, res) => {
+
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var address = post_data.adresse_evt;
+		var title = post_data.event_title;;
+		var date = post_data.date_evt;
+		var time = post_data.time_evt;
+		var user = post_data.user;
+		console.log(post_data);
+
+		con.query('INSERT INTO `event`(`event_title`,`adresse_evt`, `date_evt`, `time_evt`, `user`) VALUES (?,?,?,?,?)', [title,address,date,time,user] , function( err ,result, fields) { 
+		
+			con.on('error',function (err) { 
+			console.log('mysql error',err);
+			} );
+			res.json("OK");
+			});
+
+  });
+
+
 
 
 //add  location
@@ -347,6 +370,25 @@ app.get('/location/:id',(req, res) => {
 
 
 
+//participate
+app.post('/participate',(req, res) => {
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var event = post_data.event_id;
+		var user = post_data.user;
+
+		console.log(post_data);
+
+	con.query('INSERT INTO `participants`(`puser_id`, `pevent_id`) VALUES (?,?)', [user, event] , function( err ,result, fields) { 
+		con.on('error',function (err) { 
+			res.send("ERROR");
+		console.log('mysql error',err);
+		} );
+	res.send("OK");
+  });
+
+
+});
 
 
 //update user
@@ -414,6 +456,32 @@ app.get('/bikes/sh',(req, res) => {
 
   
 
+//show all participants
+app.post('/participants/alls',(req, res) => {
+	var post_data = req.body;  //get POST PARAMS
+		//retrieve data from query
+		var id = post_data.event_id;
+		console.log(post_data); //AND participant.puser_id = user.user_id  GROUP BY participant.pevent_id WHERE  participant.pevent_id=? ', [id]
+	
+con.query('SELECT DISTINCT * FROM participants, user  WHERE participants.pevent_id=? AND user.user_id = participants.puser_id', [id] , function( err ,result, fields) { 
+		
+		con.on('error',function (err) { 
+		console.log('mysql error',err);
+		} );
+		
+		if(result && result.length ){
+		res.send(JSON.stringify(result));
+		}
+		else
+		{
+			res.send(null);
+		}
+		});
+
+
+  });
+
+
 //show all bikes by shop
 app.post('/bikes/shops',(req, res) => {
 
@@ -448,6 +516,18 @@ app.post('/bikes/shops',(req, res) => {
 			}
 			});
 
+  });
+
+
+
+
+ //show all shops
+ app.get('/events/all',(req, res) => {
+	let sql = "SELECT * FROM event";
+    con.query(sql, (err, results) => {
+	  if(err) throw err;
+	  res.send(results);
+	});
   });
 
 
